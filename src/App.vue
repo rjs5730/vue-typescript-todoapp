@@ -12,7 +12,9 @@
           <TodoListItem
             v-for="(todoItem, index) in todoItems"
             :key="index"
+            :index="index"
             :todoItem="todoItem"
+            @remove="removeTodoItem"
           ></TodoListItem>
         </ul>
       </div>
@@ -55,7 +57,6 @@ export default Vue.extend({
       const value = this.todoText;
       this.todoItems.push(value);
       storage.save(this.todoItems);
-      // localStorage.setItem(value, value);
       this.initTodoText();
     },
     initTodoText() {
@@ -63,6 +64,11 @@ export default Vue.extend({
     },
     fetchTodoItems() {
       this.todoItems = storage.fetch();
+    },
+    removeTodoItem(index: number) {
+      console.log("remove", index);
+      this.todoItems.splice(index, 1);
+      storage.save(this.todoItems);
     },
   },
   created() {
